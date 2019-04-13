@@ -19,9 +19,10 @@ namespace comp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var dict = new Dictionary<string, string>()
+            var dict = new Dictionary<string, string[]>()
             {
-                { "S", "abc" }
+                { "S", new string[]{ "abcEd", "abcd" },
+                { "E", new string[]{ "x" } }
             };
             Compiler c = new Compiler(dict);
             var input = "ab";

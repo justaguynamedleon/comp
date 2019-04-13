@@ -8,11 +8,15 @@ namespace comp
 {
     class Compiler
     {
-        private Dictionary<string, string> t;
+        private Dictionary<string, string[]> t;
 
-        public Compiler(Dictionary<string, string> t)
+        public Compiler(Dictionary<string, string[]> _t)
         {
-            this.t = t;
+            t = _t;
+            foreach (var key in t.Keys.ToArray())
+            {
+                t[key] = t[key];
+            }
         }
 
         public string Print()
@@ -25,26 +29,45 @@ namespace comp
             return s;
         }
 
-        public string f(string x, string inp)
+        public string f(string x, string inp, out bool consumed)
         {
             foreach (var s in x)
             {
                 if (!terminal(s.ToString()))
                 {
-                    inp += f(t[s.ToString()], inp);
+                    string aux;
+                    foreach (var child in t)
+                    {
+
+                    }
+                    aux = f(t[s.ToString()], inp, out consumed);
+                    if(consumed)
+                    {
+                        if(aux == "")
+                        inp = aux;
+                    }
+                    else
+                    {
+                        return x;
+                    }
                 }
                 else
                 {
-                    //if(inp.Length > 0)
-                    //    return 
+                    if (inp.Length == 0)
+                    {
+                        consumed = false;
+                        return null;
+                    }
                     if (s == inp[0])
                         inp = inp.Substring(1);
-                    //else if (!terminal(s.ToString()))
-                    //    return f(s.ToString(), inp);
-                    //else
-                    //    return x;
+                    else
+                    {
+                        consumed = false;
+                        return null;
+                    }
                 }
             }
+            consumed = true;
             return inp;
         }
 
